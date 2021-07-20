@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <style>
+        img{
+            width: 100px;
+            border-radius: 50%;
+            box-shadow: 2px 2px  #999;
+        }
+        img.disabled
+        {
+            opacity: 0.3;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        const $app = document.getElementById('app')
+        const create = React.createElement;
+        //Traemos la propiedad useState de react que cumple la funcion de cambiar los estados de elementos jsx.
+        const useState = React.useState;
+        //Vamos a crear una lista de avatares con react
+        const Avatar = params => {
+            //de la siguiente manera le indicamos los parametros , el primero indica si esta activo y el segundo indica una forma de 
+            //activarlo o desactivarlo.
+
+            const [enabled, setEnabled] = useState(true);
+
+            //Creamos la variable src con el valor de la source que aplicaremos sobre la imagen.
+            const src = `https://randomuser.me/api/portraits/women/${params.id}.jpg`;
+            //Creamos la variable con un ternario el cual va a definir el valor de la clase en el caso que este activado o desactivado.
+            const className =  enabled ? "" : "disabled";
+            //retornamos el valor que queremos renderizar con los atributos que le componen en formato objeto con jsx.
+            return (
+                <picture>
+                    <img onClick={() => setEnabled(!enabled)}  
+                    className={className} src={src}/>
+                    <span>{params.name}</span>
+                </picture>)
+
+        };
+        //De esta manera devolvemos con un solo avatar.
+
+        //ReactDOM.render(create(Avatar,{ id : 1 }), $app)
+
+        //Si quisieramos hacerlo con 2 avatares
+        //Con lo siguiente indicamos que queremos renderizar un div con los atributos de avatar pasando el id 1 y 2 con jsx.
+        ReactDOM.render(
+            <div>
+                <Avatar id={10} name="Andrea"/>
+                <Avatar id={20} name="josefina"/>
+            </div>, $app 
+
+        )
+
+
+    </script>
+</body>
+</html>
