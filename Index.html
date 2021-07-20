@@ -10,14 +10,28 @@
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
     <style>
+        picture{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            width:100px;
+        }
         img{
-            width: 100px;
+            width: 100%;
             border-radius: 50%;
             box-shadow: 2px 2px  #999;
         }
         img.disabled
         {
             opacity: 0.3;
+        }
+        picture.is-small
+        {
+            width:50px;
+        }
+        picture.is-large
+        {
+            width:200px;
         }
     </style>
     <title>Document</title>
@@ -31,22 +45,36 @@
         //Traemos la propiedad useState de react que cumple la funcion de cambiar los estados de elementos jsx.
         const useState = React.useState;
         //Vamos a crear una lista de avatares con react
-        const Avatar = params => {
+        const Avatar = ({id, name = "default", size}) => {
             //de la siguiente manera le indicamos los parametros , el primero indica si esta activo y el segundo indica una forma de 
             //activarlo o desactivarlo.
-
             const [enabled, setEnabled] = useState(true);
-
             //Creamos la variable src con el valor de la source que aplicaremos sobre la imagen.
-            const src = `https://randomuser.me/api/portraits/women/${params.id}.jpg`;
+            const src = `https://randomuser.me/api/portraits/women/${id}.jpg`;
             //Creamos la variable con un ternario el cual va a definir el valor de la clase en el caso que este activado o desactivado.
-            const className =  enabled ? "" : "disabled";
+            const ImgclassName =  enabled ? "" : "disabled";
+            //Creamos la variable con un ternario para que, dependiendo el valor que reciba por parametro para size, la imagen se vea mas 
+            //grande o mas chica
+            let PictureClassName = "";
+            if (size == "small")
+            {
+                PictureClassName = "is-small"
+            }
+            else if(size == "large")
+            {
+                PictureClassName = "is-large"
+            }
             //retornamos el valor que queremos renderizar con los atributos que le componen en formato objeto con jsx.
             return (
-                <picture>
-                    <img onClick={() => setEnabled(!enabled)}  
-                    className={className} src={src}/>
-                    <span>{params.name}</span>
+                <picture className={PictureClassName}>
+                    {
+                        id ? (
+                            <img onClick={() => setEnabled(!enabled)}  
+                            className={ImgclassName} src={src}/>
+                        ): (<strong>Sin imagen </strong>)
+                    }
+
+                    <span> {enabled ? name: "Desactivada"}</span>
                 </picture>)
 
         };
@@ -58,8 +86,11 @@
         //Con lo siguiente indicamos que queremos renderizar un div con los atributos de avatar pasando el id 1 y 2 con jsx.
         ReactDOM.render(
             <div>
-                <Avatar id={10} name="Andrea"/>
+                <Avatar name="Laura"/>
+                <Avatar id={10} name="Andrea" size="small"/>
+                <Avatar id={11}  size="small"/>
                 <Avatar id={20} name="josefina"/>
+                <Avatar id={30} name="Moria" size="large"/>
             </div>, $app 
 
         )
