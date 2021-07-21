@@ -81,16 +81,34 @@
         //De esta manera devolvemos con un solo avatar.
 
         //ReactDOM.render(create(Avatar,{ id : 1 }), $app)
-
+        
+        //Agregamos el contador.
+        function Contador ()
+        {
+            const [ContadorValue, ActualizarContador] = useState(10);
+            const [VecesValue, ActualizarVeces] = useState(0);
+            return (
+                //React.Fragment nos permite renderizar mas de un elemento sin la necesitar de una etiqueta contenedora, por ejemplo un div.
+                <React.Fragment>
+                <button onClick = {() => {
+                    ActualizarContador(ContadorValue + 1)
+                    ActualizarVeces(VecesValue +1)}}>Incrementar +</button>
+                <button onClick = {() => {
+                    ActualizarContador(ContadorValue - 1)
+                    ActualizarVeces(VecesValue +1)}}>Decrementar -</button>
+                <span>{ContadorValue}</span>
+                <p>Contador usado : {VecesValue} veces</p>
+                <button onClick = {() => {
+                    ActualizarContador(0)
+                    ActualizarVeces(0)}}>Reset</button>
+                </React.Fragment>
+                );
+        }
         //Si quisieramos hacerlo con 2 avatares
         //Con lo siguiente indicamos que queremos renderizar un div con los atributos de avatar pasando el id 1 y 2 con jsx.
         ReactDOM.render(
             <div>
-                <Avatar name="Laura"/>
-                <Avatar id={10} name="Andrea" size="small"/>
-                <Avatar id={11}  size="small"/>
-                <Avatar id={20} name="josefina"/>
-                <Avatar id={30} name="Moria" size="large"/>
+                <Contador/>
             </div>, $app 
 
         )
